@@ -23,6 +23,12 @@ import {
 } from "./actions/habitActions";
 import useProgressMetrics from "./hooks/useProgressMetrics";
 import useChallengeMetrics from "./hooks/useChallengeMetrics";
+import { Routes, Route } from "react-router-dom";
+
+import DashboardPage from "./pages/DashboardPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
+import AchievementsPage from "./pages/AchievementsPage";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   const [habits, setHabits] = useState(() => {
@@ -156,6 +162,12 @@ function App() {
 
       <div className="flex-1 w-full p-4 md:p-8">
         {/* HEADER */}
+
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+
+          <Route path="/analytics" element={<AnalyticsPage />} />
+        </Routes>
 
         <HeaderSection level={level} />
 
