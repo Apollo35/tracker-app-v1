@@ -167,6 +167,8 @@ function App() {
           <Route path="/" element={<DashboardPage />} />
 
           <Route path="/analytics" element={<AnalyticsPage />} />
+
+          <Route path="/achievements" element={<AchievementsPage />} />
         </Routes>
 
         <HeaderSection level={level} />
