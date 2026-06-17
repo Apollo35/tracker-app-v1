@@ -39,6 +39,17 @@ function Sidebar() {
         >
           Achievements
         </Link>
+
+        <Link
+          to="/settings"
+          className={`block w-full px-4 py-3 text-left uppercase tracking-widest text-sm transition ${
+            location.pathname === "/settings"
+              ? "border border-green-500 text-green-500"
+              : "border border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-white"
+          }`}
+        >
+          Settings
+        </Link>
       </div>
     </div>
   );
