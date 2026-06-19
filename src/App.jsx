@@ -204,6 +204,8 @@ function App() {
         <Route path="/companion" element={<CompanionPage />} />
 
         <Route path="/settings" element={<SettingsPage />} />
+
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </div>
   );
