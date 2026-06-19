@@ -50,6 +50,16 @@ function Sidebar() {
         >
           Settings
         </Link>
+        <Link
+          to="/login"
+          className={`block w-full px-4 py-3 text-left uppercase tracking-widest text-sm transition ${
+            location.pathname === "/login"
+              ? "border border-green-500 text-green-500"
+              : "border border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-white"
+          }`}
+        >
+          Login
+        </Link>
       </div>
     </div>
   );

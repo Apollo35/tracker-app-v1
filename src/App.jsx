@@ -27,6 +27,7 @@ import DashboardPage from "./pages/DashboardPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import CompanionPage from "./pages/CompanionPage";
 import SettingsPage from "./pages/SettingsPage";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [habits, setHabits] = useState(() => {
