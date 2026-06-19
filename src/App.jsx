@@ -25,7 +25,7 @@ import {
 
 import DashboardPage from "./pages/DashboardPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
-import AchievementsPage from "./pages/AchievementsPage";
+import CompanionPage from "./pages/CompanionPage";
 import SettingsPage from "./pages/SettingsPage";
 
 function App() {
@@ -187,9 +187,20 @@ function App() {
           }
         />
 
-        <Route path="/analytics" element={<AnalyticsPage />} />
+        <Route
+          path="/analytics"
+          element={
+            <AnalyticsPage
+              xp={xp}
+              level={level}
+              totalLogs={totalLogs}
+              consistencyRate={consistencyRate}
+              habitsCount={habits.length}
+            />
+          }
+        />
 
-        <Route path="/achievements" element={<AchievementsPage />} />
+        <Route path="/companion" element={<CompanionPage />} />
 
         <Route path="/settings" element={<SettingsPage />} />
       </Routes>
