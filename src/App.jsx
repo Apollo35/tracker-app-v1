@@ -1,29 +1,27 @@
 import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+
 import { MAX_HABITS } from "./constants/gameConfig";
+
 import { saveHabits, loadHabits } from "./services/storageService";
-import AddHabitForm from "./components/AddHabitForm";
-import HabitList from "./components/HabitList";
-import ChallengeSection from "./components/ChallengeSection";
-import AchievementSection from "./components/AchievementSection";
-import StatsSection from "./components/StatsSection";
-import ProgressSection from "./components/ProgressSection";
+import { resetChallengeHabits } from "./services/challengeService";
+
 import Sidebar from "./components/Sidebar";
-import HeaderSection from "./components/HeaderSection";
 import LevelUpModal from "./components/LevelUpModal";
+
 import useDailyReset from "./hooks/useDailyReset";
 import useChallengeCompletion from "./hooks/useChallengeCompletion";
-import { resetChallengeHabits } from "./services/challengeService";
 import useChallengeFailure from "./hooks/useChallengeFailure";
 import useLevelSystem from "./hooks/useLevelSystem";
 import useAchievements from "./hooks/useAchievements";
+import useProgressMetrics from "./hooks/useProgressMetrics";
+import useChallengeMetrics from "./hooks/useChallengeMetrics";
+
 import {
   handleToggleHabit,
   handleDeleteHabit,
   handleAddHabit,
 } from "./actions/habitActions";
-import useProgressMetrics from "./hooks/useProgressMetrics";
-import useChallengeMetrics from "./hooks/useChallengeMetrics";
-import { Routes, Route } from "react-router-dom";
 
 import DashboardPage from "./pages/DashboardPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
@@ -33,6 +31,7 @@ import SettingsPage from "./pages/SettingsPage";
 function App() {
   const [habits, setHabits] = useState(() => {
     const savedHabits = loadHabits();
+
     return savedHabits.length > 0
       ? savedHabits
       : [
@@ -70,6 +69,7 @@ function App() {
 
     return savedDate ? new Date(savedDate) : new Date();
   });
+
   const [challengeFailed, setChallengeFailed] = useState(false);
 
   const [challengeCompleted, setChallengeCompleted] = useState(false);
@@ -116,6 +116,7 @@ function App() {
 
   function deleteHabit(id) {
     const confirmed = window.confirm("DELETE THIS HABIT?");
+
     if (!confirmed) return;
 
     const filteredHabits = handleDeleteHabit(habits, id);
@@ -129,6 +130,7 @@ function App() {
     setHabits(resetHabits);
 
     setChallengeFailed(false);
+
     setChallengeStartDate(new Date());
 
     localStorage.removeItem("lastResetDate");
@@ -152,72 +154,45 @@ function App() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col md:flex-row">
-      {/* SIDEBAR */}
-
       <Sidebar />
-
-      {/* MAIN CONTENT */}
 
       <LevelUpModal level={level} showLevelUp={showLevelUp} />
 
-      <div className="flex-1 w-full p-4 md:p-8">
-        {/* HEADER */}
-
-        <Routes>
-          <Route path="/" element={<DashboardPage />} />
-
-          <Route path="/analytics" element={<AnalyticsPage />} />
-
-          <Route path="/achievements" element={<AchievementsPage />} />
-
-          <Route path="/settings" element={<SettingsPage />} />
-        </Routes>
-
-        <HeaderSection level={level} />
-
-        {/* PROGRESS SECTION */}
-
-        <ProgressSection
-          level={level}
-          currentLevelXP={currentLevelXP}
-          nextLevelXP={nextLevelXP}
-          progressPercentage={progressPercentage}
-        />
-        <ChallengeSection
-          challengeCompleted={challengeCompleted}
-          challengeFailed={challengeFailed}
-          restartChallenge={restartChallenge}
-          challengeDay={challengeDay}
-          remainingDays={remainingDays}
-          challengeProgress={challengeProgress}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <DashboardPage
+              level={level}
+              currentLevelXP={currentLevelXP}
+              nextLevelXP={nextLevelXP}
+              progressPercentage={progressPercentage}
+              challengeCompleted={challengeCompleted}
+              challengeFailed={challengeFailed}
+              restartChallenge={restartChallenge}
+              challengeDay={challengeDay}
+              remainingDays={remainingDays}
+              challengeProgress={challengeProgress}
+              achievements={achievements}
+              xp={xp}
+              totalLogs={totalLogs}
+              habits={habits}
+              consistencyRate={consistencyRate}
+              newHabit={newHabit}
+              setNewHabit={setNewHabit}
+              addHabit={addHabit}
+              toggleHabit={toggleHabit}
+              deleteHabit={deleteHabit}
+            />
+          }
         />
 
-        <AchievementSection achievements={achievements} />
+        <Route path="/analytics" element={<AnalyticsPage />} />
 
-        <StatsSection
-          xp={xp}
-          totalLogs={totalLogs}
-          habitsCount={habits.length}
-          consistencyRate={consistencyRate}
-        />
+        <Route path="/achievements" element={<AchievementsPage />} />
 
-        <AddHabitForm
-          newHabit={newHabit}
-          setNewHabit={setNewHabit}
-          addHabit={addHabit}
-        />
-
-        {/* HABITS */}
-
-        <div className="mt-10 space-y-3">
-          <HabitList
-            habits={habits}
-            challengeFailed={challengeFailed}
-            toggleHabit={toggleHabit}
-            deleteHabit={deleteHabit}
-          />
-        </div>
-      </div>
+        <Route path="/settings" element={<SettingsPage />} />
+      </Routes>
     </div>
   );
 }
