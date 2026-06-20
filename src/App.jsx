@@ -28,8 +28,10 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import CompanionPage from "./pages/CompanionPage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
+import { getCurrentUser } from "./services/authService";
 
 function App() {
+  const [user, setUser] = useState(null);
   const [habits, setHabits] = useState(() => {
     const savedHabits = loadHabits();
 
@@ -74,6 +76,18 @@ function App() {
   const [challengeFailed, setChallengeFailed] = useState(false);
 
   const [challengeCompleted, setChallengeCompleted] = useState(false);
+
+  useEffect(() => {
+    async function checkUser() {
+      const currentUser = await getCurrentUser();
+
+      console.log(currentUser);
+
+      setUser(currentUser);
+    }
+
+    checkUser();
+  }, []);
 
   useEffect(() => {
     saveHabits(habits);

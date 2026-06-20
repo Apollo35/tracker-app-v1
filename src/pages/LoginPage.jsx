@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { signUp, signIn } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   async function handleSignUp() {
     const { error } = await signUp(email, password);
@@ -13,7 +15,7 @@ function LoginPage() {
       return;
     }
 
-    alert("Account created");
+    navigate("/");
   }
 
   async function handleSignIn() {
@@ -24,7 +26,7 @@ function LoginPage() {
       return;
     }
 
-    alert("Login successful");
+    navigate("/");
   }
 
   return (
