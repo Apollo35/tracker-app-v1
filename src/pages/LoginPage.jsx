@@ -1,11 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { signUp, signIn } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "../services/authService";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function checkUser() {
+      const user = await getCurrentUser();
+
+      if (user) {
+        navigate("/");
+      }
+    }
+
+    checkUser();
+  }, [navigate]);
 
   async function handleSignUp() {
     const { error } = await signUp(email, password);

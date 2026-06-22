@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import { MAX_HABITS } from "./constants/gameConfig";
 
@@ -32,6 +32,9 @@ import { getCurrentUser } from "./services/authService";
 
 function App() {
   const [user, setUser] = useState(null);
+
+  const [authLoading, setAuthLoading] = useState(true);
+
   const [habits, setHabits] = useState(() => {
     const savedHabits = loadHabits();
 
@@ -81,9 +84,9 @@ function App() {
     async function checkUser() {
       const currentUser = await getCurrentUser();
 
-      console.log(currentUser);
-
       setUser(currentUser);
+
+      setAuthLoading(false);
     }
 
     checkUser();
@@ -167,6 +170,10 @@ function App() {
     setNewHabit("");
   }
 
+  if (authLoading) {
+    return <div className="min-h-screen bg-black" />;
+  }
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col md:flex-row">
       <Sidebar />
@@ -177,28 +184,32 @@ function App() {
         <Route
           path="/"
           element={
-            <DashboardPage
-              level={level}
-              currentLevelXP={currentLevelXP}
-              nextLevelXP={nextLevelXP}
-              progressPercentage={progressPercentage}
-              challengeCompleted={challengeCompleted}
-              challengeFailed={challengeFailed}
-              restartChallenge={restartChallenge}
-              challengeDay={challengeDay}
-              remainingDays={remainingDays}
-              challengeProgress={challengeProgress}
-              achievements={achievements}
-              xp={xp}
-              totalLogs={totalLogs}
-              habits={habits}
-              consistencyRate={consistencyRate}
-              newHabit={newHabit}
-              setNewHabit={setNewHabit}
-              addHabit={addHabit}
-              toggleHabit={toggleHabit}
-              deleteHabit={deleteHabit}
-            />
+            user ? (
+              <DashboardPage
+                level={level}
+                currentLevelXP={currentLevelXP}
+                nextLevelXP={nextLevelXP}
+                progressPercentage={progressPercentage}
+                challengeCompleted={challengeCompleted}
+                challengeFailed={challengeFailed}
+                restartChallenge={restartChallenge}
+                challengeDay={challengeDay}
+                remainingDays={remainingDays}
+                challengeProgress={challengeProgress}
+                achievements={achievements}
+                xp={xp}
+                totalLogs={totalLogs}
+                habits={habits}
+                consistencyRate={consistencyRate}
+                newHabit={newHabit}
+                setNewHabit={setNewHabit}
+                addHabit={addHabit}
+                toggleHabit={toggleHabit}
+                deleteHabit={deleteHabit}
+              />
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
 
