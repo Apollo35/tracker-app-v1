@@ -31,3 +31,10 @@ export async function getCurrentUser() {
 
   return user;
 }
+export function onAuthStateChange(callback) {
+  return supabase.auth.onAuthStateChange(
+    (_, session) => {
+      callback(session?.user ?? null);
+    }
+  );
+}

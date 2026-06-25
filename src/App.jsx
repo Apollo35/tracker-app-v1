@@ -28,8 +28,7 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import CompanionPage from "./pages/CompanionPage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
-import { getCurrentUser } from "./services/authService";
-
+import { getCurrentUser, onAuthStateChange } from "./services/authService";
 function App() {
   const [user, setUser] = useState(null);
 
@@ -90,6 +89,14 @@ function App() {
     }
 
     checkUser();
+
+    const { data: authListener } = onAuthStateChange((user) => {
+      setUser(user);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
