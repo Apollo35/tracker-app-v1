@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import { MAX_HABITS } from "./constants/gameConfig";
 
@@ -8,6 +8,7 @@ import { resetChallengeHabits } from "./services/challengeService";
 
 import Sidebar from "./components/Sidebar";
 import LevelUpModal from "./components/LevelUpModal";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import useDailyReset from "./hooks/useDailyReset";
 import useChallengeCompletion from "./hooks/useChallengeCompletion";
@@ -29,6 +30,7 @@ import CompanionPage from "./pages/CompanionPage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
 import { getCurrentUser, onAuthStateChange } from "./services/authService";
+
 function App() {
   const [user, setUser] = useState(null);
 
@@ -191,7 +193,7 @@ function App() {
         <Route
           path="/"
           element={
-            user ? (
+            <ProtectedRoute user={user}>
               <DashboardPage
                 level={level}
                 currentLevelXP={currentLevelXP}
@@ -214,28 +216,42 @@ function App() {
                 toggleHabit={toggleHabit}
                 deleteHabit={deleteHabit}
               />
-            ) : (
-              <Navigate to="/login" />
-            )
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/analytics"
           element={
-            <AnalyticsPage
-              xp={xp}
-              level={level}
-              totalLogs={totalLogs}
-              consistencyRate={consistencyRate}
-              habitsCount={habits.length}
-            />
+            <ProtectedRoute user={user}>
+              <AnalyticsPage
+                xp={xp}
+                level={level}
+                totalLogs={totalLogs}
+                consistencyRate={consistencyRate}
+                habitsCount={habits.length}
+              />
+            </ProtectedRoute>
           }
         />
 
-        <Route path="/companion" element={<CompanionPage />} />
+        <Route
+          path="/companion"
+          element={
+            <ProtectedRoute user={user}>
+              <CompanionPage />
+            </ProtectedRoute>
+          }
+        />
 
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute user={user}>
+              <SettingsPage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="/login" element={<LoginPage />} />
       </Routes>
