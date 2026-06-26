@@ -30,6 +30,7 @@ import CompanionPage from "./pages/CompanionPage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
 import { getCurrentUser, onAuthStateChange } from "./services/authService";
+import { getHabits, createHabit } from "./services/habitsService";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -86,6 +87,14 @@ function App() {
       const currentUser = await getCurrentUser();
 
       setUser(currentUser);
+
+      if (currentUser) {
+        const { data, error } = await getHabits(currentUser.id);
+
+        if (!error && data) {
+          console.log("Cloud Habits:", data);
+        }
+      }
 
       setAuthLoading(false);
     }
@@ -163,18 +172,24 @@ function App() {
     localStorage.removeItem("lastResetDate");
   }
 
-  function addHabit() {
+  async function addHabit() {
     if (habits.length >= MAX_HABITS) {
       alert("MAXIMUM HABIT LIMIT REACHED");
-
       return;
     }
 
     if (newHabit.trim() === "") return;
 
-    const updatedHabits = handleAddHabit(habits, newHabit);
+    if (!user) return;
 
-    setHabits(updatedHabits);
+    const { data, error } = await createHabit(newHabit, user.id);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    console.log("Habit created:", data);
 
     setNewHabit("");
   }
