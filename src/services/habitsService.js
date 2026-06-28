@@ -64,3 +64,22 @@ export async function deleteHabit(
     error,
   };
 }
+
+export async function updateHabitCompletion(
+  id,
+  completed
+) {
+  const { data, error } =
+    await supabase
+      .from("habits")
+      .update({
+        completed,
+      })
+      .eq("id", id)
+      .select();
+
+  return {
+    data,
+    error,
+  };
+}
