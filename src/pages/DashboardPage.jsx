@@ -8,6 +8,7 @@ import HabitList from "../components/HabitList";
 
 function DashboardPage({
   level,
+  diamonds,
   currentLevelXP,
   nextLevelXP,
   progressPercentage,
@@ -28,12 +29,14 @@ function DashboardPage({
   toggleHabit,
   deleteHabit,
 }) {
+  console.log("Dashboard diamonds:", diamonds);
   return (
     <div className="flex-1 w-full p-4 md:p-8">
-      <HeaderSection level={level} />
+      <HeaderSection level={level} diamonds={diamonds} />
 
       <ProgressSection
         level={level}
+        diamonds={diamonds}
         currentLevelXP={currentLevelXP}
         nextLevelXP={nextLevelXP}
         progressPercentage={progressPercentage}

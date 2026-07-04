@@ -3,7 +3,12 @@ import { Routes, Route } from "react-router-dom";
 
 import { MAX_HABITS } from "./constants/gameConfig";
 
-import { saveHabits, loadHabits } from "./services/storageService";
+import {
+  saveHabits,
+  loadHabits,
+  saveDiamonds,
+  loadDiamonds,
+} from "./services/storageService";
 import { resetChallengeHabits } from "./services/challengeService";
 
 import Sidebar from "./components/Sidebar";
@@ -70,6 +75,9 @@ function App() {
   });
 
   const [newHabit, setNewHabit] = useState("");
+  const [diamonds, setDiamonds] = useState(() => {
+    return loadDiamonds();
+  });
 
   const [challengeStartDate, setChallengeStartDate] = useState(() => {
     const savedDate = localStorage.getItem("challengeStartDate");
@@ -104,6 +112,10 @@ function App() {
   useEffect(() => {
     saveHabits(habits);
   }, [habits]);
+
+  useEffect(() => {
+    saveDiamonds(diamonds);
+  }, [diamonds]);
 
   useEffect(() => {
     localStorage.setItem(
@@ -196,6 +208,7 @@ function App() {
             <ProtectedRoute user={user}>
               <DashboardPage
                 level={level}
+                diamonds={diamonds}
                 currentLevelXP={currentLevelXP}
                 nextLevelXP={nextLevelXP}
                 progressPercentage={progressPercentage}

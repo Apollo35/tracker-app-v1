@@ -31,4 +31,41 @@ export function loadHabits() {
 
   }
 
+  
+
+}
+
+export function saveDiamonds(diamonds) {
+
+  localStorage.setItem(
+    "diamonds",
+    JSON.stringify(diamonds)
+  )
+
+}
+
+export function loadDiamonds() {
+
+  const savedDiamonds =
+    localStorage.getItem("diamonds")
+
+  try {
+
+    return savedDiamonds
+      ? JSON.parse(savedDiamonds)
+      : 0
+
+  } catch (error) {
+
+    console.error(
+      "FAILED TO PARSE DIAMONDS",
+      error
+    )
+
+    localStorage.removeItem("diamonds")
+
+    return 0
+
+  }
+
 }
