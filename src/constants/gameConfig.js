@@ -5,3 +5,9 @@ export const XP_PER_LOG = 25
 export const CHALLENGE_DAYS = 30
 
 export const LEVEL_XP_SCALE = 100
+
+export const DIAMONDS_PER_HABIT = 5
+
+export const DIAMONDS_PER_ACHIEVEMENT = 50
+
+export const DIAMONDS_PER_CHALLENGE = 500

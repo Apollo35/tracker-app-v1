@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { MAX_HABITS } from "./constants/gameConfig";
-
+import { MAX_HABITS, DIAMONDS_PER_HABIT } from "./constants/gameConfig";
 import {
   saveHabits,
   loadHabits,
@@ -148,9 +147,17 @@ function App() {
   const { showLevelUp } = useLevelSystem(level);
 
   function toggleHabit(id) {
+    const habit = habits.find((habit) => habit.id === id);
+
     const updatedHabits = handleToggleHabit(habits, id);
 
     setHabits(updatedHabits);
+
+    if (!habit.completed) {
+      setDiamonds((previousDiamonds) => previousDiamonds + DIAMONDS_PER_HABIT);
+    } else {
+      setDiamonds((previousDiamonds) => previousDiamonds - DIAMONDS_PER_HABIT);
+    }
   }
 
   function deleteHabit(id) {
