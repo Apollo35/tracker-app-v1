@@ -34,6 +34,7 @@ import CompanionPage from "./pages/CompanionPage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
 import { getCurrentUser, onAuthStateChange } from "./services/authService";
+import { earnHabitReward, removeHabitReward } from "./services/economyService";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -154,9 +155,9 @@ function App() {
     setHabits(updatedHabits);
 
     if (!habit.completed) {
-      setDiamonds((previousDiamonds) => previousDiamonds + DIAMONDS_PER_HABIT);
+      setDiamonds((previousDiamonds) => earnHabitReward(previousDiamonds));
     } else {
-      setDiamonds((previousDiamonds) => previousDiamonds - DIAMONDS_PER_HABIT);
+      setDiamonds((previousDiamonds) => removeHabitReward(previousDiamonds));
     }
   }
 
