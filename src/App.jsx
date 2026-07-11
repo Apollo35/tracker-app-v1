@@ -35,6 +35,7 @@ import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
 import { getCurrentUser, onAuthStateChange } from "./services/authService";
 import { earnHabitReward, removeHabitReward } from "./services/economyService";
+import { rewardStreak } from "./services/rewardService";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -148,17 +149,19 @@ function App() {
   const { showLevelUp } = useLevelSystem(level);
 
   function toggleHabit(id) {
-    const habit = habits.find((habit) => habit.id === id);
+    const previousHabit = habits.find((habit) => habit.id === id);
 
     const updatedHabits = handleToggleHabit(habits, id);
 
-    setHabits(updatedHabits);
+    const updatedHabit = updatedHabits.find((habit) => habit.id === id);
 
-    if (!habit.completed) {
-      setDiamonds((previousDiamonds) => earnHabitReward(previousDiamonds));
-    } else {
-      setDiamonds((previousDiamonds) => removeHabitReward(previousDiamonds));
+    const reward = rewardStreak(previousHabit, updatedHabit);
+
+    if (reward > 0) {
+      setDiamonds((previous) => previous + reward);
     }
+
+    setHabits(updatedHabits);
   }
 
   function deleteHabit(id) {

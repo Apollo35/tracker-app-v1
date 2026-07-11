@@ -1,21 +1,40 @@
 import {
-  DIAMONDS_PER_HABIT,
+  STREAK_REWARDS,
 } from "../constants/gameConfig";
 
-export function earnHabitReward(
-  currentDiamonds
+export function getStreakReward(
+  streak
 ) {
   return (
-    currentDiamonds +
-    DIAMONDS_PER_HABIT
+    STREAK_REWARDS[streak] ??
+    0
   );
 }
 
-export function removeHabitReward(
-  currentDiamonds
+export function getAchievementReward(
+  reward
+) {
+  return reward;
+}
+
+export function getChallengeReward(
+  reward
+) {
+  return reward;
+}
+
+export function canAfford(
+  currentDiamonds,
+  price
+) {
+  return currentDiamonds >= price;
+}
+
+export function spendDiamonds(
+  currentDiamonds,
+  price
 ) {
   return (
-    currentDiamonds -
-    DIAMONDS_PER_HABIT
+    currentDiamonds - price
   );
 }
