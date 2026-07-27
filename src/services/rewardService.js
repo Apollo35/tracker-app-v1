@@ -1,4 +1,8 @@
 import { getStreakReward } from "./economyService";
+import {
+  loadClaimedAchievements,
+  saveClaimedAchievements,
+} from "./achievementStorage";
 
 export function rewardStreak(
   previousHabit,
@@ -20,8 +24,19 @@ export function rewardStreak(
   );
 }
 
-export function rewardAchievement(reward) {
-  return reward;
+export function rewardAchievement(achievement) {
+  const claimed = loadClaimedAchievements();
+
+  if (claimed.includes(achievement.id)) {
+    return 0;
+  }
+
+  saveClaimedAchievements([
+    ...claimed,
+    achievement.id,
+  ]);
+
+  return achievement.reward;
 }
 
 export function rewardChallenge(reward) {

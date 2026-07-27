@@ -6,10 +6,15 @@ from "../utils/shouldFailChallenge"
 function useChallengeFailure(
   habits,
   challengeDay,
-  setChallengeFailed
+  setChallengeFailed,
+  challengeEnabled
 ) {
 
   useEffect(() => {
+
+     if (!challengeEnabled) {
+    return;
+  }
 
     const failed =
       shouldFailChallenge(
@@ -24,6 +29,7 @@ function useChallengeFailure(
   }, [
     habits,
     challengeDay,
+    challengeEnabled
   ])
 
 }

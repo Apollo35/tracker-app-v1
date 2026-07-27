@@ -6,8 +6,18 @@ from "../utils/calculateChallengeLogs"
 
 function useChallengeMetrics(
   habits,
-  challengeStartDate
-) {
+  challengeStartDate,
+  challengeEnabled
+){
+
+  if (!challengeEnabled) {
+  return {
+    challengeDay: 0,
+    remainingDays: 0,
+    challengeProgress: 0,
+    currentChallengeLogs: 0,
+  };
+}
 
   const {
     challengeDay,

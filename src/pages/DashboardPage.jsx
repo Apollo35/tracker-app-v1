@@ -9,6 +9,7 @@ import HabitList from "../components/HabitList";
 function DashboardPage({
   level,
   diamonds,
+  challengeEnabled,
   currentLevelXP,
   nextLevelXP,
   progressPercentage,
@@ -42,14 +43,16 @@ function DashboardPage({
         progressPercentage={progressPercentage}
       />
 
-      <ChallengeSection
-        challengeCompleted={challengeCompleted}
-        challengeFailed={challengeFailed}
-        restartChallenge={restartChallenge}
-        challengeDay={challengeDay}
-        remainingDays={remainingDays}
-        challengeProgress={challengeProgress}
-      />
+      {challengeEnabled && (
+        <ChallengeSection
+          challengeCompleted={challengeCompleted}
+          challengeFailed={challengeFailed}
+          restartChallenge={restartChallenge}
+          challengeDay={challengeDay}
+          remainingDays={remainingDays}
+          challengeProgress={challengeProgress}
+        />
+      )}
 
       <AchievementSection achievements={achievements} />
 

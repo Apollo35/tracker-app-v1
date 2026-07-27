@@ -1,7 +1,7 @@
 import { signOut } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
-function SettingsPage() {
+function SettingsPage({ challengeEnabled, setChallengeEnabled }) {
   const navigate = useNavigate();
 
   async function handleLogout() {
@@ -36,6 +36,21 @@ function SettingsPage() {
           <h2 className="font-bold mb-2">Cloud Sync</h2>
 
           <p className="text-zinc-400">Supabase Integration Planned</p>
+        </div>
+
+        <div className="border border-zinc-800 p-4">
+          <h2 className="font-bold mb-4">Gameplay</h2>
+
+          <label className="flex items-center justify-between">
+            <span>Enable 30-Day Challenge</span>
+
+            <input
+              type="checkbox"
+              checked={challengeEnabled}
+              onChange={(event) => setChallengeEnabled(event.target.checked)}
+              className="w-5 h-5"
+            />
+          </label>
         </div>
         <div className="border border-zinc-800 p-4">
           <h2 className="font-bold mb-2">Account</h2>

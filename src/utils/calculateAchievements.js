@@ -1,32 +1,21 @@
-function calculateAchievements(
-  habits,
-  totalLogs
-) {
+import { ACHIEVEMENTS } from "../constants/achievementConfig";
 
-  const unlocked = []
+function calculateAchievements(habits, totalLogs) {
+  const unlocked = [];
 
   if (totalLogs >= 1) {
-    unlocked.push("FIRST STEP")
+    unlocked.push(ACHIEVEMENTS.FIRST_STEP);
   }
 
-  if (
-    habits.some(
-      (habit) => habit.streak >= 7
-    )
-  ) {
-    unlocked.push("DISCIPLINED")
+  if (habits.some((habit) => habit.streak >= 7)) {
+    unlocked.push(ACHIEVEMENTS.DISCIPLINED);
   }
 
-  if (
-    habits.some(
-      (habit) => habit.streak >= 30
-    )
-  ) {
-    unlocked.push("MACHINE")
+  if (habits.some((habit) => habit.streak >= 30)) {
+    unlocked.push(ACHIEVEMENTS.MACHINE);
   }
 
-  return unlocked
-
+  return unlocked;
 }
 
-export default calculateAchievements
+export default calculateAchievements;

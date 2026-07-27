@@ -34,8 +34,9 @@ import CompanionPage from "./pages/CompanionPage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
 import { getCurrentUser, onAuthStateChange } from "./services/authService";
-import { earnHabitReward, removeHabitReward } from "./services/economyService";
+
 import { rewardStreak } from "./services/rewardService";
+import { rewardAchievement } from "./services/rewardService";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -89,6 +90,7 @@ function App() {
   const [challengeFailed, setChallengeFailed] = useState(false);
 
   const [challengeCompleted, setChallengeCompleted] = useState(false);
+  const [challengeEnabled, setChallengeEnabled] = useState(false);
 
   useEffect(() => {
     async function checkUser() {
@@ -119,6 +121,13 @@ function App() {
   }, [diamonds]);
 
   useEffect(() => {
+    if (challengeEnabled) return;
+
+    setChallengeCompleted(false);
+    setChallengeFailed(false);
+  }, [challengeEnabled]);
+
+  useEffect(() => {
     localStorage.setItem(
       "challengeStartDate",
       challengeStartDate.toISOString(),
@@ -128,11 +137,16 @@ function App() {
   useDailyReset(habits, setHabits);
 
   const { challengeDay, remainingDays, challengeProgress } =
-    useChallengeMetrics(habits, challengeStartDate);
+    useChallengeMetrics(habits, challengeStartDate, challengeEnabled);
 
   useChallengeCompletion(challengeDay, challengeFailed, setChallengeCompleted);
 
-  useChallengeFailure(habits, challengeDay, setChallengeFailed);
+  useChallengeFailure(
+    habits,
+    challengeDay,
+    setChallengeFailed,
+    challengeEnabled,
+  );
 
   const {
     totalLogs,
@@ -145,6 +159,17 @@ function App() {
   } = useProgressMetrics(habits);
 
   const { achievements } = useAchievements(habits, totalLogs);
+  useEffect(() => {
+    let earnedDiamonds = 0;
+
+    achievements.forEach((achievement) => {
+      earnedDiamonds += rewardAchievement(achievement);
+    });
+
+    if (earnedDiamonds > 0) {
+      setDiamonds((previous) => previous + earnedDiamonds);
+    }
+  }, [achievements]);
 
   const { showLevelUp } = useLevelSystem(level);
 
@@ -175,6 +200,8 @@ function App() {
   }
 
   function restartChallenge() {
+    if (!challengeEnabled) return;
+
     const resetHabits = resetChallengeHabits(habits);
 
     setHabits(resetHabits);
@@ -220,6 +247,7 @@ function App() {
               <DashboardPage
                 level={level}
                 diamonds={diamonds}
+                challengeEnabled={challengeEnabled}
                 currentLevelXP={currentLevelXP}
                 nextLevelXP={nextLevelXP}
                 progressPercentage={progressPercentage}
@@ -272,7 +300,10 @@ function App() {
           path="/settings"
           element={
             <ProtectedRoute user={user}>
-              <SettingsPage />
+              <SettingsPage
+                challengeEnabled={challengeEnabled}
+                setChallengeEnabled={setChallengeEnabled}
+              />
             </ProtectedRoute>
           }
         />

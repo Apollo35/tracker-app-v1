@@ -6,15 +6,21 @@ from "../utils/isChallengeCompleted"
 function useChallengeCompletion(
   challengeDay,
   challengeFailed,
-  setChallengeCompleted
-) {
+  setChallengeCompleted,
+  challengeEnabled
+){
 
   useEffect(() => {
+
+    if (!challengeEnabled) {
+  return;
+}
 
     const completed =
       isChallengeCompleted(
         challengeDay,
         challengeFailed
+        
       )
 
     if (completed) {
@@ -24,6 +30,7 @@ function useChallengeCompletion(
   }, [
     challengeDay,
     challengeFailed,
+    challengeEnabled
   ])
 
 }
