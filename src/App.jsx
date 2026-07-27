@@ -31,6 +31,7 @@ import {
 import DashboardPage from "./pages/DashboardPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import CompanionPage from "./pages/CompanionPage";
+import ShopPage from "./pages/ShopPage";
 import SettingsPage from "./pages/SettingsPage";
 import LoginPage from "./pages/LoginPage";
 import { getCurrentUser, onAuthStateChange } from "./services/authService";
@@ -295,6 +296,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/shop" element={<ShopPage />} />
 
         <Route
           path="/settings"
