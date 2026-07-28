@@ -297,8 +297,10 @@ function App() {
           }
         />
 
-        <Route path="/shop" element={<ShopPage />} />
-
+        <Route
+          path="/shop"
+          element={<ShopPage diamonds={diamonds} setDiamonds={setDiamonds} />}
+        />
         <Route
           path="/settings"
           element={
