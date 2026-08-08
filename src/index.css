@@ -1,1 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Hanken+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap');
 @import "tailwindcss";
+
+:root {
+  --iron-black: #000000;
+  --iron-surface: #131313;
+  --iron-surface-low: #1c1b1b;
+  --iron-surface-container: #201f1f;
+  --iron-surface-high: #2a2a2a;
+  --iron-surface-highest: #353534;
+
+  --iron-text: #e5e2e1;
+  --iron-muted: #bbcbbb;
+
+  --iron-border: #3d4a3e;
+  --iron-border-neutral: #333333;
+
+  --iron-green: #2ecc71;
+  --iron-green-bright: #54e98a;
+
+  --iron-error: #ff3b30;
+}
+
+html {
+  background: var(--iron-black);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--iron-black);
+  color: var(--iron-text);
+  font-family: "Hanken Grotesk", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  border-radius: 0;
+}
+
+.iron-display {
+  font-family: "Anton", sans-serif;
+  text-transform: uppercase;
+}
+
+.iron-body {
+  font-family: "Hanken Grotesk", sans-serif;
+}
+
+.iron-data {
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.08em;
+}
+
+.iron-border {
+  border: 1px solid var(--iron-border-neutral);
+}
+
+.iron-panel {
+  background: var(--iron-surface-container);
+  border: 1px solid var(--iron-border-neutral);
+}
+
+.iron-panel-high {
+  background: var(--iron-surface-high);
+  border: 1px solid var(--iron-border-neutral);
+}
+
+::selection {
+  background: var(--iron-green);
+  color: var(--iron-black);
+}

@@ -25,7 +25,7 @@ function HabitCard({
     <div
       className={`border bg-zinc-950 p-5 transition ${
         completed
-          ? "border-green-500/40"
+          ? "border-green-500 bg-green-950/10"
           : "border-zinc-800 hover:border-zinc-600"
       }`}
     >
@@ -38,12 +38,13 @@ function HabitCard({
               }`}
             />
 
-            <h3 className="truncate text-lg font-bold uppercase tracking-wide">
+            <h3 className="iron-display truncate text-2xl leading-none">
+              {" "}
               {title}
             </h3>
           </div>
 
-          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs uppercase tracking-widest text-zinc-500">
+          <div className="iron-data mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[10px] uppercase text-zinc-500">
             <span>STREAK: {streak} DAYS</span>
             <span>LOGS: {history?.length || 0}</span>
           </div>
@@ -57,7 +58,7 @@ function HabitCard({
                   key={day.date}
                   className="flex flex-col items-center gap-2"
                 >
-                  <span className="text-[9px] font-bold uppercase text-zinc-500">
+                  <span className="iron-data text-[9px] font-bold uppercase text-zinc-500">
                     {day.label}
                   </span>
 
@@ -89,7 +90,7 @@ function HabitCard({
             aria-label={
               completed ? `Mark ${title} incomplete` : `Complete ${title}`
             }
-            className={`h-12 w-12 border-2 font-bold transition ${
+            className={`h-12 w-12 border font-bold transition ${
               completed
                 ? "border-green-500 bg-green-500 text-black"
                 : "border-green-500 text-green-500 hover:bg-green-500 hover:text-black"
@@ -101,7 +102,7 @@ function HabitCard({
           <button
             onClick={onDelete}
             aria-label={`Delete ${title}`}
-            className="h-12 w-12 border-2 border-red-500 text-red-500 transition hover:bg-red-500 hover:text-black"
+            className="h-12 w-12 border border-red-500/70 text-red-500 transition hover:bg-red-500 hover:text-black"
           >
             −
           </button>

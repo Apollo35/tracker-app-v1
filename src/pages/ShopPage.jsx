@@ -28,53 +28,75 @@ export default function ShopPage({ diamonds, setDiamonds }) {
 
   return (
     <div className="flex-1 w-full p-4 md:p-8">
-      <div>
-        <p className="text-zinc-500 text-xs uppercase tracking-[0.3em]">
+      <div className="mb-8">
+        <p className="text-green-500 text-xs uppercase tracking-[0.3em]">
           ECONOMY SYSTEM
         </p>
 
-        <h1 className="text-4xl font-black uppercase mt-3">Shop</h1>
+        <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="iron-display text-5xl leading-none md:text-7xl">
+              Shop
+            </h1>
 
-        <p className="mt-2 text-yellow-400 font-bold">💎 {diamonds}</p>
+            <p className="mt-3 text-sm text-zinc-500">
+              Spend your diamonds and unlock future upgrades.
+            </p>
+          </div>
 
-        <p className="text-zinc-500 mt-2">Spend your diamonds here.</p>
+          <div className="border border-green-900 bg-green-950/10 px-5 py-3">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
+              DIAMONDS
+            </p>
+
+            <p className="iron-data mt-2 text-2xl font-bold text-yellow-400">
+              💎 {diamonds}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Future Categories */}
 
-      <div className="mt-8 grid gap-4 md:grid-cols-3">
-        <div className="border border-zinc-800 bg-zinc-950 p-5">
-          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+      <div className="grid gap-4 md:grid-cols-3">
+        <div className="border border-zinc-800 bg-zinc-950 p-5 transition hover:border-green-900">
+          <p className="text-green-500 text-[10px] font-bold uppercase tracking-[0.2em]">
             COMPANION
           </p>
 
-          <h2 className="mt-2 text-lg font-black uppercase">Coming Soon</h2>
+          <h2 className="iron-display mt-3 text-2xl leading-none">
+            Coming Soon
+          </h2>
 
-          <p className="mt-2 text-sm text-zinc-500">
+          <p className="mt-3 text-sm text-zinc-500">
             Companion environment items and decorations.
           </p>
         </div>
 
-        <div className="border border-zinc-800 bg-zinc-950 p-5">
-          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+        <div className="border border-zinc-800 bg-zinc-950 p-5 transition hover:border-green-900">
+          <p className="text-green-500 text-[10px] font-bold uppercase tracking-[0.2em]">
             THEMES
           </p>
 
-          <h2 className="mt-2 text-lg font-black uppercase">Coming Soon</h2>
+          <h2 className="iron-display mt-3 text-2xl leading-none">
+            Coming Soon
+          </h2>
 
-          <p className="mt-2 text-sm text-zinc-500">
+          <p className="mt-3 text-sm text-zinc-500">
             Unlock new visual themes for your Tracker.
           </p>
         </div>
 
-        <div className="border border-zinc-800 bg-zinc-950 p-5">
-          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+        <div className="border border-zinc-800 bg-zinc-950 p-5 transition hover:border-green-900">
+          <p className="text-green-500 text-[10px] font-bold uppercase tracking-[0.2em]">
             COSMETICS
           </p>
 
-          <h2 className="mt-2 text-lg font-black uppercase">Coming Soon</h2>
+          <h2 className="iron-display mt-3 text-2xl leading-none">
+            Coming Soon
+          </h2>
 
-          <p className="mt-2 text-sm text-zinc-500">
+          <p className="mt-3 text-sm text-zinc-500">
             Cosmetic upgrades and future customization items.
           </p>
         </div>
@@ -83,7 +105,7 @@ export default function ShopPage({ diamonds, setDiamonds }) {
       {/* Current Shop Items */}
 
       <div className="mt-10">
-        <p className="text-zinc-500 text-xs uppercase tracking-[0.3em]">
+        <p className="text-green-500 text-[10px] font-bold uppercase tracking-[0.25em]">
           CURRENT ITEMS
         </p>
 
@@ -94,28 +116,42 @@ export default function ShopPage({ diamonds, setDiamonds }) {
             return (
               <div
                 key={item.id}
-                className="border border-zinc-800 bg-zinc-950 p-4 transition hover:border-zinc-600"
+                className={`border bg-zinc-950 p-4 transition ${
+                  isOwned
+                    ? "border-green-900/70 bg-green-950/5"
+                    : "border-zinc-800 hover:border-green-900"
+                }`}
               >
                 <img
                   src={item.image}
                   alt={item.name}
-                  className="mb-4 h-40 w-full rounded-md object-cover"
+                  className="mb-4 h-40 w-full object-cover"
                 />
 
-                <h2 className="text-xl font-bold">{item.name}</h2>
+                <div className="flex items-start justify-between gap-4">
+                  <h2 className="iron-display text-2xl leading-none">
+                    {item.name}
+                  </h2>
 
-                <p className="mt-2 text-sm text-zinc-400">{item.description}</p>
+                  {isOwned && (
+                    <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-green-500">
+                      Owned
+                    </span>
+                  )}
+                </div>
 
-                <p className="mt-4 font-semibold text-green-500">
+                <p className="mt-3 text-sm text-zinc-400">{item.description}</p>
+
+                <p className="iron-data mt-4 text-sm font-bold text-yellow-400">
                   💎 {item.price}
                 </p>
 
                 <button
                   onClick={() => handleBuy(item)}
                   disabled={isOwned}
-                  className={`mt-4 w-full py-2 transition ${
+                  className={`mt-4 w-full py-3 text-xs font-bold uppercase tracking-[0.15em] transition ${
                     isOwned
-                      ? "cursor-not-allowed border border-zinc-700 text-zinc-500"
+                      ? "cursor-not-allowed border border-zinc-800 text-zinc-600"
                       : "border border-green-500 text-green-500 hover:bg-green-500 hover:text-black"
                   }`}
                 >
