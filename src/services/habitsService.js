@@ -1,85 +1,54 @@
-import { supabase } from "./supabaseService";
+import {
+  loadHabits,
+  saveHabits,
+} from "./storageService";
 
-export async function getHabits(userId) {
-  const { data, error } = await supabase
-    .from("habits")
-    .select("*")
-    .eq("user_id", userId)
-    .order("created_at");
-
-  return {
-    data,
-    error,
-  };
+export function getHabits() {
+  return loadHabits();
 }
 
-export async function createHabit(
-  title,
-  userId
-) {
-  const { data, error } =
-    await supabase
-      .from("habits")
-      .insert([
-        {
-          title,
-          user_id: userId,
-        },
-      ])
-      .select();
+export function createHabit(habit) {
+  const habits = loadHabits();
 
-  return {
-    data,
-    error,
-  };
+  const updatedHabits = [
+    ...habits,
+    habit,
+  ];
+
+  saveHabits(updatedHabits);
+
+  return updatedHabits;
 }
 
-export async function updateHabit(
-  id,
-  updates
-) {
-  const { data, error } =
-    await supabase
-      .from("habits")
-      .update(updates)
-      .eq("id", id)
-      .select();
+export function updateHabit(id, updates) {
+  const habits = loadHabits();
 
-  return {
-    data,
-    error,
-  };
+  const updatedHabits = habits.map((habit) =>
+    habit.id === id
+      ? { ...habit, ...updates }
+      : habit
+  );
+
+  saveHabits(updatedHabits);
+
+  return updatedHabits;
 }
 
-export async function deleteHabit(
-  id
-) {
-  const { error } =
-    await supabase
-      .from("habits")
-      .delete()
-      .eq("id", id);
+export function deleteHabit(id) {
+  const habits = loadHabits();
 
-  return {
-    error,
-  };
+  const updatedHabits = habits.filter(
+    (habit) => habit.id !== id
+  );
+
+  saveHabits(updatedHabits);
+
+  return updatedHabits;
 }
 
-export async function updateHabitCompletion(
+export function updateHabitCompletion(
   id,
   completed
 ) {
-  const { data, error } =
-    await supabase
-      .from("habits")
-      .update({
-        completed,
-      })
-      .eq("id", id)
-      .select();
-
-  return {
-    data,
-    error,
-  };
+  return updateHabit(id, { completed });
 }
