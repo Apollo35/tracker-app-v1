@@ -12,7 +12,6 @@ import { resetChallengeHabits } from "./services/challengeService";
 
 import Sidebar from "./components/Sidebar";
 import LevelUpModal from "./components/LevelUpModal";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 import useDailyReset from "./hooks/useDailyReset";
 import useChallengeCompletion from "./hooks/useChallengeCompletion";
@@ -33,17 +32,11 @@ import AnalyticsPage from "./pages/AnalyticsPage";
 import CompanionPage from "./pages/CompanionPage";
 import ShopPage from "./pages/ShopPage";
 import SettingsPage from "./pages/SettingsPage";
-import LoginPage from "./pages/LoginPage";
-import { getCurrentUser, onAuthStateChange } from "./services/authService";
 
 import { rewardStreak } from "./services/rewardService";
 import { rewardAchievement } from "./services/rewardService";
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  const [authLoading, setAuthLoading] = useState(true);
-
   const [habits, setHabits] = useState(() => {
     const savedHabits = loadHabits();
 
@@ -92,26 +85,6 @@ function App() {
 
   const [challengeCompleted, setChallengeCompleted] = useState(false);
   const [challengeEnabled, setChallengeEnabled] = useState(false);
-
-  useEffect(() => {
-    async function checkUser() {
-      const currentUser = await getCurrentUser();
-
-      setUser(currentUser);
-
-      setAuthLoading(false);
-    }
-
-    checkUser();
-
-    const { data: authListener } = onAuthStateChange((user) => {
-      setUser(user);
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, []);
 
   useEffect(() => {
     saveHabits(habits);
@@ -230,10 +203,6 @@ function App() {
     setNewHabit("");
   }
 
-  if (authLoading) {
-    return <div className="min-h-screen bg-black" />;
-  }
-
   return (
     <div className="min-h-screen bg-black text-white flex flex-col md:flex-row">
       <Sidebar />
@@ -244,58 +213,47 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute user={user}>
-              <DashboardPage
-                level={level}
-                diamonds={diamonds}
-                challengeEnabled={challengeEnabled}
-                currentLevelXP={currentLevelXP}
-                nextLevelXP={nextLevelXP}
-                progressPercentage={progressPercentage}
-                challengeCompleted={challengeCompleted}
-                challengeFailed={challengeFailed}
-                restartChallenge={restartChallenge}
-                challengeDay={challengeDay}
-                remainingDays={remainingDays}
-                challengeProgress={challengeProgress}
-                achievements={achievements}
-                xp={xp}
-                totalLogs={totalLogs}
-                habits={habits}
-                consistencyRate={consistencyRate}
-                newHabit={newHabit}
-                setNewHabit={setNewHabit}
-                addHabit={addHabit}
-                toggleHabit={toggleHabit}
-                deleteHabit={deleteHabit}
-              />
-            </ProtectedRoute>
+            <DashboardPage
+              level={level}
+              diamonds={diamonds}
+              challengeEnabled={challengeEnabled}
+              currentLevelXP={currentLevelXP}
+              nextLevelXP={nextLevelXP}
+              progressPercentage={progressPercentage}
+              challengeCompleted={challengeCompleted}
+              challengeFailed={challengeFailed}
+              restartChallenge={restartChallenge}
+              challengeDay={challengeDay}
+              remainingDays={remainingDays}
+              challengeProgress={challengeProgress}
+              achievements={achievements}
+              xp={xp}
+              totalLogs={totalLogs}
+              habits={habits}
+              consistencyRate={consistencyRate}
+              newHabit={newHabit}
+              setNewHabit={setNewHabit}
+              addHabit={addHabit}
+              toggleHabit={toggleHabit}
+              deleteHabit={deleteHabit}
+            />
           }
         />
 
         <Route
           path="/analytics"
           element={
-            <ProtectedRoute user={user}>
-              <AnalyticsPage
-                xp={xp}
-                level={level}
-                totalLogs={totalLogs}
-                consistencyRate={consistencyRate}
-                habitsCount={habits.length}
-              />
-            </ProtectedRoute>
+            <AnalyticsPage
+              xp={xp}
+              level={level}
+              totalLogs={totalLogs}
+              consistencyRate={consistencyRate}
+              habitsCount={habits.length}
+            />
           }
         />
 
-        <Route
-          path="/companion"
-          element={
-            <ProtectedRoute user={user}>
-              <CompanionPage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/companion" element={<CompanionPage />} />
 
         <Route
           path="/shop"
@@ -304,16 +262,12 @@ function App() {
         <Route
           path="/settings"
           element={
-            <ProtectedRoute user={user}>
-              <SettingsPage
-                challengeEnabled={challengeEnabled}
-                setChallengeEnabled={setChallengeEnabled}
-              />
-            </ProtectedRoute>
+            <SettingsPage
+              challengeEnabled={challengeEnabled}
+              setChallengeEnabled={setChallengeEnabled}
+            />
           }
         />
-
-        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </div>
   );
