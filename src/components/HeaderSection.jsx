@@ -1,7 +1,6 @@
 function HeaderSection({ level, diamonds }) {
-  console.log("Diamonds:", diamonds);
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
       <div>
         <p className="text-zinc-500 uppercase tracking-[0.3em] text-xs">
           PERFORMANCE SYSTEM
@@ -12,23 +11,24 @@ function HeaderSection({ level, diamonds }) {
         </h2>
       </div>
 
-      <div className="text-right">
-        <p className="text-zinc-500 text-xs uppercase tracking-widest">
-          ACTIVE LEVEL
-        </p>
+      <div className="flex items-center gap-6">
+        <div className="border border-zinc-800 bg-zinc-950 px-5 py-3">
+          <p className="text-zinc-500 text-xs uppercase tracking-widest">
+            ACTIVE LEVEL
+          </p>
 
-        <h3 className="text-2xl md:text-4xl font-black text-green-500 mt-2">
-          {level}
-        </h3>
-      </div>
-      <div className="text-right">
-        <p className="text-zinc-500 text-xs uppercase tracking-widest">
-          DIAMONDS
-        </p>
+          <p className="text-2xl font-black text-green-500 mt-1">{level}</p>
+        </div>
 
-        <h3 className="text-2xl font-black text-cyan-400 mt-2">
-          💎 {diamonds}
-        </h3>
+        <div className="border border-yellow-500/40 bg-yellow-500/5 px-5 py-3">
+          <p className="text-zinc-500 text-xs uppercase tracking-widest">
+            DIAMONDS
+          </p>
+
+          <p className="text-2xl font-black text-yellow-400 mt-1">
+            💎 {diamonds}
+          </p>
+        </div>
       </div>
     </div>
   );

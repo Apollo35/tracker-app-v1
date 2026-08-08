@@ -13,8 +13,7 @@ from "../utils/calculateProgressPercentage"
 import calculateTotalLogs
 from "../utils/calculateTotalLogs"
 
-import calculateConsistency
-from "../utils/calculateConsistency"
+
 
 function useProgressMetrics(
   habits
@@ -43,8 +42,7 @@ function useProgressMetrics(
       nextLevelXP
     )
 
-  const consistencyRate =
-    calculateConsistency(habits)
+  
 
   return {
     totalLogs,
@@ -53,7 +51,7 @@ function useProgressMetrics(
     currentLevelXP,
     nextLevelXP,
     progressPercentage,
-    consistencyRate,
+    
   }
 
 }

@@ -23,7 +23,6 @@ function DashboardPage({
   xp,
   totalLogs,
   habits,
-  consistencyRate,
   newHabit,
   setNewHabit,
   addHabit,
@@ -56,12 +55,7 @@ function DashboardPage({
 
       <AchievementSection achievements={achievements} />
 
-      <StatsSection
-        xp={xp}
-        totalLogs={totalLogs}
-        habitsCount={habits.length}
-        consistencyRate={consistencyRate}
-      />
+      <StatsSection xp={xp} totalLogs={totalLogs} habitsCount={habits.length} />
 
       <AddHabitForm
         newHabit={newHabit}

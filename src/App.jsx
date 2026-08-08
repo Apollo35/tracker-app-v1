@@ -129,7 +129,6 @@ function App() {
     currentLevelXP,
     nextLevelXP,
     progressPercentage,
-    consistencyRate,
   } = useProgressMetrics(habits);
 
   const { achievements } = useAchievements(habits, totalLogs);
@@ -230,7 +229,6 @@ function App() {
               xp={xp}
               totalLogs={totalLogs}
               habits={habits}
-              consistencyRate={consistencyRate}
               newHabit={newHabit}
               setNewHabit={setNewHabit}
               addHabit={addHabit}
@@ -247,7 +245,6 @@ function App() {
               xp={xp}
               level={level}
               totalLogs={totalLogs}
-              consistencyRate={consistencyRate}
               habitsCount={habits.length}
             />
           }

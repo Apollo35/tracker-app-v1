@@ -3,8 +3,8 @@ function SettingsPage({ challengeEnabled, setChallengeEnabled }) {
     <div className="flex-1 w-full p-4 md:p-8">
       <h1 className="text-4xl font-black uppercase mb-8">Settings</h1>
 
-      <div className="space-y-4">
-        <div className="border border-zinc-800 p-4">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="border border-zinc-800 bg-zinc-950 p-5 transition hover:border-zinc-600">
           <h2 className="font-bold mb-2">App</h2>
 
           <p className="text-zinc-400">Version 0.2.0</p>
