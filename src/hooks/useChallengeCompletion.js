@@ -1,38 +1,32 @@
-import { useEffect } from "react"
+import { useEffect } from "react";
 
-import isChallengeCompleted
-from "../utils/isChallengeCompleted"
+import isChallengeCompleted from "../utils/isChallengeCompleted";
 
 function useChallengeCompletion(
   challengeDay,
   challengeFailed,
   setChallengeCompleted,
-  challengeEnabled
-){
-
+  challengeEnabled,
+) {
   useEffect(() => {
-
     if (!challengeEnabled) {
-  return;
-}
-
-    const completed =
-      isChallengeCompleted(
-        challengeDay,
-        challengeFailed
-        
-      )
-
-    if (completed) {
-      setChallengeCompleted(true)
+      return;
     }
 
+    const completed = isChallengeCompleted(
+      challengeDay,
+      challengeFailed,
+    );
+
+    if (completed) {
+      setChallengeCompleted(true);
+    }
   }, [
     challengeDay,
     challengeFailed,
-    challengeEnabled
-  ])
-
+    challengeEnabled,
+    setChallengeCompleted,
+  ]);
 }
 
-export default useChallengeCompletion
+export default useChallengeCompletion;

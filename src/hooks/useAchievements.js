@@ -1,38 +1,16 @@
-import { useEffect, useState }
-from "react"
+import { useMemo } from "react";
 
-import getUnlockedAchievements
-from "../utils/getUnlockedAchievements"
+import getUnlockedAchievements from "../utils/getUnlockedAchievements";
 
-function useAchievements(
-  habits,
-  totalLogs
-) {
-
-  const [
-    achievements,
-    setAchievements,
-  ] = useState([])
-
-  useEffect(() => {
-
-    const unlocked =
-      getUnlockedAchievements(
-        habits,
-        totalLogs
-      )
-
-    setAchievements(unlocked)
-
-  }, [
-    habits,
-    totalLogs,
-  ])
+function useAchievements(habits, totalLogs) {
+  const achievements = useMemo(
+    () => getUnlockedAchievements(habits, totalLogs),
+    [habits, totalLogs],
+  );
 
   return {
     achievements,
-  }
-
+  };
 }
 
-export default useAchievements
+export default useAchievements;

@@ -1,7 +1,4 @@
-function calculateChallengeLogs(
-  habits,
-  challengeStartDate
-) {
+function calculateChallengeLogs(habits,) {
 
   return habits.reduce(
     (total, habit) => {

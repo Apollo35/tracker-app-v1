@@ -1,41 +1,26 @@
-import { useEffect } from "react"
+import { useEffect } from "react";
 
-import resetHabitsForNewDay
-from "../utils/resetHabitsForNewDay"
+import resetHabitsForNewDay from "../utils/resetHabitsForNewDay";
 
-function useDailyReset(
-  habits,
-  setHabits
-) {
-
+function useDailyReset(habits, setHabits) {
   useEffect(() => {
+    const today = new Date().toDateString();
 
-    const today =
-      new Date().toDateString()
-
-    const lastResetDate =
-      localStorage.getItem(
-        "lastResetDate"
-      )
+    const lastResetDate = localStorage.getItem(
+      "lastResetDate",
+    );
 
     if (lastResetDate !== today) {
+      const resetHabits = resetHabitsForNewDay(habits);
 
-      const resetHabits =
-        resetHabitsForNewDay(
-          habits
-        )
-
-      setHabits(resetHabits)
+      setHabits(resetHabits);
 
       localStorage.setItem(
         "lastResetDate",
-        today
-      )
-
+        today,
+      );
     }
-
-  }, [])
-
+  }, [habits, setHabits]);
 }
 
-export default useDailyReset
+export default useDailyReset;

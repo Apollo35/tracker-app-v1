@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 
-import { MAX_HABITS, DIAMONDS_PER_HABIT } from "./constants/gameConfig";
+import { MAX_HABITS } from "./constants/gameConfig";
 import {
   saveHabits,
   loadHabits,
@@ -35,6 +35,8 @@ import SettingsPage from "./pages/SettingsPage";
 
 import { rewardStreak } from "./services/rewardService";
 import { rewardAchievement } from "./services/rewardService";
+import calculateTotalLogs from "./utils/calculateTotalLogs";
+import getUnlockedAchievements from "./utils/getUnlockedAchievements";
 
 function App() {
   const [habits, setHabits] = useState(() => {
@@ -95,13 +97,6 @@ function App() {
   }, [diamonds]);
 
   useEffect(() => {
-    if (challengeEnabled) return;
-
-    setChallengeCompleted(false);
-    setChallengeFailed(false);
-  }, [challengeEnabled]);
-
-  useEffect(() => {
     localStorage.setItem(
       "challengeStartDate",
       challengeStartDate.toISOString(),
@@ -132,17 +127,6 @@ function App() {
   } = useProgressMetrics(habits);
 
   const { achievements } = useAchievements(habits, totalLogs);
-  useEffect(() => {
-    let earnedDiamonds = 0;
-
-    achievements.forEach((achievement) => {
-      earnedDiamonds += rewardAchievement(achievement);
-    });
-
-    if (earnedDiamonds > 0) {
-      setDiamonds((previous) => previous + earnedDiamonds);
-    }
-  }, [achievements]);
 
   const { showLevelUp } = useLevelSystem(level);
 
@@ -157,6 +141,23 @@ function App() {
 
     if (reward > 0) {
       setDiamonds((previous) => previous + reward);
+    }
+
+    const updatedTotalLogs = calculateTotalLogs(updatedHabits);
+
+    const updatedAchievements = getUnlockedAchievements(
+      updatedHabits,
+      updatedTotalLogs,
+    );
+
+    let earnedDiamonds = 0;
+
+    updatedAchievements.forEach((achievement) => {
+      earnedDiamonds += rewardAchievement(achievement);
+    });
+
+    if (earnedDiamonds > 0) {
+      setDiamonds((previous) => previous + earnedDiamonds);
     }
 
     setHabits(updatedHabits);
@@ -184,6 +185,15 @@ function App() {
     setChallengeStartDate(new Date());
 
     localStorage.removeItem("lastResetDate");
+  }
+
+  function handleChallengeToggle(enabled) {
+    setChallengeEnabled(enabled);
+
+    if (!enabled) {
+      setChallengeCompleted(false);
+      setChallengeFailed(false);
+    }
   }
 
   function addHabit() {
@@ -261,7 +271,7 @@ function App() {
           element={
             <SettingsPage
               challengeEnabled={challengeEnabled}
-              setChallengeEnabled={setChallengeEnabled}
+              setChallengeEnabled={handleChallengeToggle}
             />
           }
         />

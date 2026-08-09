@@ -1,49 +1,41 @@
-import { useEffect, useState }
-from "react"
+import { useEffect, useRef, useState } from "react";
 
-import didLevelUp
-from "../utils/didLevelUp"
+import didLevelUp from "../utils/didLevelUp";
 
-function useLevelSystem(
-  level
-) {
+function useLevelSystem(level) {
+  const previousLevel = useRef(level);
 
-  const [
-    previousLevel,
-    setPreviousLevel,
-  ] = useState(level)
-
-  const [
-    showLevelUp,
-    setShowLevelUp,
-  ] = useState(false)
+  const [showLevelUp, setShowLevelUp] = useState(false);
 
   useEffect(() => {
-
-    const leveledUp =
-      didLevelUp(
-        level,
-        previousLevel
-      )
+    const leveledUp = didLevelUp(
+      level,
+      previousLevel.current,
+    );
 
     if (leveledUp) {
+      const showTimer = setTimeout(() => {
+        setShowLevelUp(true);
+      }, 0);
 
-      setShowLevelUp(true)
+      const hideTimer = setTimeout(() => {
+        setShowLevelUp(false);
+      }, 2500);
 
-      setTimeout(() => {
-        setShowLevelUp(false)
-      }, 2500)
+      previousLevel.current = level;
 
+      return () => {
+        clearTimeout(showTimer);
+        clearTimeout(hideTimer);
+      };
     }
 
-    setPreviousLevel(level)
-
-  }, [level])
+    previousLevel.current = level;
+  }, [level]);
 
   return {
     showLevelUp,
-  }
-
+  };
 }
 
-export default useLevelSystem
+export default useLevelSystem;
